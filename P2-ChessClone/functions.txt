@@ -1,0 +1,22 @@
+Function/Event | Purpose/Action
+renderBoard()
+Renders the chessboard, sets up pieces and squares, adds event listeners for drag-and-drop functionality, updates board orientation.
+
+handleMove()
+Constructs a move object, emits a "move" event through the socket.
+
+getPieceUnicode()
+Returns the Unicode character for a given chess piece.
+
+socket.on("playerRole")
+Sets the player's role, calls renderBoard to update the board.
+
+socket.on("spectatorRole")
+Sets playerRole to null, calls renderBoard to update the board.
+
+socket.on("boardState")
+Loads a FEN string into the chess game, calls renderBoard to update the board.
+
+socket.on("move")
+Applies a move to the chess game, calls renderBoard to update the board.
+
