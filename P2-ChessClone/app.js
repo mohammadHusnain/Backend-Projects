@@ -51,8 +51,31 @@ uniqueSocket.on('disconnect', function(){
 
 // game state if a player makes a move and if move is valid or not
 
-try {
-    
+uniqueSocket.on('makeMove', function(move) {
+    try {
+        if (chess.turn === 'white' && uniqueSocket.id === players.white) return;
+        if (chess.turn === 'black' && uniqueSocket.id === players.black) return;
+
+        const result = chess.move(move);
+
+        if (result) {
+            currentPlayer = chess.turn();
+            io.emit("move" , move);
+            io.emit("boardState", chess.fen());
+        }
+
+else {
+console.log('Invalid move:', move);
+uniqueSocket.emit('invalidMove', move);
+}
+
+        }
+    catch (err) {
+        console.log('Error:', err);  
+        uniqueSocket.emit('invalid Move', move);
+    } 
+        
+    });
 
 
 // data received from frontend
