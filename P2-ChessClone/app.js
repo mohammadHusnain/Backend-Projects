@@ -52,9 +52,15 @@ uniqueSocket.on('disconnect', function(){
 // game state if a player makes a move and if move is valid or not
 
 uniqueSocket.on('makeMove', function(move) {
-    try {
-        if (chess.turn === 'white' && uniqueSocket.id === players.white) return;
-        if (chess.turn === 'black' && uniqueSocket.id === players.black) return;
+    try {        // Check if it's the correct player's turn
+        const isWhiteTurn = chess.turn() === 'w';
+        const isBlackTurn = chess.turn() === 'b';
+        
+        if ((isWhiteTurn && uniqueSocket.id !== players.white) ||
+            (isBlackTurn && uniqueSocket.id !== players.black)) {
+            uniqueSocket.emit('invalidMove', { message: "Not your turn" });
+            return;
+        }
 
         const result = chess.move(move);
 
@@ -92,4 +98,4 @@ uniqueSocket.emit('invalidMove', move);
 
 server.listen(3000, () => {
     console.log('Server is running on port 3000');
-});
+})
