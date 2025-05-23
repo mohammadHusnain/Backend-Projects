@@ -1,18 +1,42 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost:27017/scatch')
-
 const productSchema = new mongoose.Schema({
-    image: String,
-    name: String,
-    price: Number,
-    discount:{
-        typeof: Number, 
-        default: 0
+    name: {
+        type: String,
+        required: true,
+        trim: true
     },
-    bgcolor: String,
-    panelcolor: String,
-    textcolor: String,
+    price: {
+        type: Number,
+        required: true,
+        min: 0  // Ensures price isn't negative
+    },
+    description: {
+        type: String,
+        trim: true
+    },
+    category: {
+        type: String,
+        required: true
+    },
+    stock: {
+        type: Number,
+        default: 0,  // Properly typed default value
+        min: 0
+    },
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'owner',
+        required: true
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    image: {
+        type: String,
+        default: ''
+    }
 });
 
-module.exports = mongoose.model('product', productSchema);
+module.exports = mongoose.model('Product', productSchema);
