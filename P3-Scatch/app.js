@@ -17,7 +17,7 @@ app.use('/users', usersRouter);
 app.use('/owners', ownersRouter);
 app.use('/products', productsRouter);
 
-const PORT = 3000;
+const PORT = 3001;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
